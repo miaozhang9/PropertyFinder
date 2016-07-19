@@ -1,17 +1,19 @@
-
-import React, { Component } from 'react';
+import React, {
+  Component
+} from 'react';
 
 import {
-    StyleSheet,
-    Text,
-    TextInput,
-    View,
-    TouchableHighlight,
-    ActivityIndicatorIOS,
-    Image,
-} from 'react-native'
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+  TouchableHighlight,
+  ActivityIndicatorIOS,
+  Image,
+} from 'react-native';
 
 import SearchResults from './SearchResults';
+import RefreshControlView from './RefreshControlView'
 
 var styles = StyleSheet.create({
   description: {
@@ -68,48 +70,63 @@ var styles = StyleSheet.create({
 export default class SearchPage extends Component {
 
   // 构造
-    constructor(props) {
-      super(props);
-      // 初始状态
-      this.state = {
-        searchString: 'london',
-        isLoading: false,
-        message: ''
-      };
-    }
+  constructor(props) {
+    super(props);
+    // 初始状态
+    this.state = {
+      searchString: 'london',
+      isLoading: false,
+      message: ''
+    };
+  }
 
   _executeQuery(query) {
     console.log(query);
-    this.setState({isLoading:true});
+    this.setState({
+      isLoading: true
+    });
     fetch(query)
-        .then(response => response.json())
-        .then(json => this._handleResponse(json.response))
-        .catch(error =>
-            this.setState({
-              isLoading: false,
-              message: 'Something bad happened' + error
-    }));
+      .then(response => response.json())
+      .then(json => this._handleResponse(json.response))
+      .catch(error =>
+        this.setState({
+          isLoading: false,
+          message: 'Something bad happened' + error
+        }));
 
   }
 
   _handleResponse(response) {
-    this.setState({ isLoading: false , message: '' });
+    this.setState({
+      isLoading: false,
+      message: ''
+    });
     if (response.application_response_code.substr(0, 1) === '1') {
       console.log('Properties found: ' + response.listings.length);
-      this.props.navigator.push(
-          {
-            title: 'Results',
-            component: SearchResults,
-            passProps: {listings:response.listings}
-          }
-      );
+      this.props.navigator.push({
+        title: 'Results',
+        component: SearchResults,
+        passProps: {
+          listings: response.listings
+        }
+      });
     } else {
-      this.setState({ message: 'Location not recognized; please try again.'});
+      this.setState({
+        message: 'Location not recognized; please try again.'
+      });
     }
   }
 
+  onRefreshPressed() {
+    this.props.navigator.push({
+      title: 'RefreshView',
+      component: RefreshControlView,
+    });
+
+  }
+
   onSearchPressed() {
-    var query = urlForQueryAndPage('place_name', this.state.searchString, 1);
+    var query = urlForQueryAndPage('place_name', this.this.state.searchString, 1);
     this._executeQuery(query);
   }
 
@@ -117,31 +134,37 @@ export default class SearchPage extends Component {
     navigator.geolocation.getCurrentPosition(
       location => {
         var search = location.coords.latitude + ',' + location.coords.longitude;
-        this.setState({searchString: search});
+        this.setState({
+          searchString: search
+        });
         var query = urlForQueryAndPage('centre_point', search, 1);
         this._executeQuery(query);
 
       },
-        error => {
-          this.setState({
-            message: 'There was a problem with obtaining your location: ' + error
-          });
+      error => {
+        this.setState({
+          message: 'There was a problem with obtaining your location: ' + error
         });
+      });
 
   }
   render() {
 
     var spinner = this.state.isLoading ?
-        ( <ActivityIndicatorIOS
+      (<ActivityIndicatorIOS
             hidden='true'
-            size='large'/> ) :
-        ( <View/>);
+            size='large'/>) :
+      (<View/>);
 
     return (
-        <View style={styles.container}>
-          <Text style={styles.description}>
-            {'Search for houses to buy!'}
-          </Text>
+      <View style={styles.container}>
+          <TouchableHighlight  style={styles.button}
+                              uderlayColor='#99d9f4' >
+            <Text style={styles.buttonText}
+                  onPress={this.onRefreshPressed.bind(this)}
+            > 下拉刷新GO</Text>
+          </TouchableHighlight>
+
           <Text style={styles.description}>
             {'Search by place-name, postcode or search near your location.'}
           </Text>
@@ -169,9 +192,12 @@ export default class SearchPage extends Component {
     );
   }
 
-  onSearchTextChanged(event){
+
+  onSearchTextChanged(event) {
     console.log('onSearchTextChanged');
-    this.setState({searchString:event.nativeEvent.text});
+    this.setState({
+      searchString: event.nativeEvent.text
+    });
     console.log(this.state.searchString);
   }
 
@@ -192,4 +218,4 @@ function urlForQueryAndPage(key, value, pageNumber) {
 
   return 'http://api.nestoria.co.uk/api?' + querystring;
 
-};
+}
