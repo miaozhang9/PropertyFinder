@@ -44,6 +44,7 @@ var styles = StyleSheet.create({
 export default class SearchResults extends Component {
 
     // 构造
+
     constructor(props) {
         super(props);
         // 初始状态

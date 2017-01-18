@@ -13,7 +13,8 @@ import {
 } from 'react-native';
 
 import SearchResults from './SearchResults';
-import RefreshControlView from './RefreshControlView'
+import RefreshControlView from './RefreshControlView';
+import MainScreen from './MainScreen';
 
 var styles = StyleSheet.create({
   description: {
@@ -118,10 +119,17 @@ export default class SearchPage extends Component {
   }
 
   onRefreshPressed() {
+    // this.props.navigator.push({
+    //   title: 'RefreshView',
+    //   component: RefreshControlView,
+    // });
+
     this.props.navigator.push({
-      title: 'RefreshView',
-      component: RefreshControlView,
+      title: 'MainScreen',
+      component: MainScreen,
     });
+
+
 
   }
 
@@ -161,7 +169,9 @@ export default class SearchPage extends Component {
           <TouchableHighlight  style={styles.button}
                               uderlayColor='#99d9f4' >
             <Text style={styles.buttonText}
-                  onPress={this.onRefreshPressed.bind(this)}
+    onPress = {
+      this.onRefreshPressed.bind(this)
+    }
             > 下拉刷新GO</Text>
           </TouchableHighlight>
 

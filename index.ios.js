@@ -14,27 +14,14 @@ import {
   View,
   NavigatorIOS,
   NativeModules,
-
 } from 'react-native';
+// var ViewPager = require('react-native-viewpager');
+import ViewPager from 'react-native-viewpager';
 import SearchPage from './SearchPage';
 var manager = NativeModules.FinderManager;
 var vc = NativeModules.FirstViewController;
 
 //var PageNavigator = require('PageNavigator');
-
-
-class HelloWorld extends Component {
-
-  render() {
-    return (
-      <Text style = {styles.text}>
-          {'Hello World (Again)'}
-        </Text>
-
-    );
-
-  }
-}
 
 class PropertyFinder extends Component {
 
@@ -48,7 +35,7 @@ class PropertyFinder extends Component {
   }
 
   render() {
-    return ( < NavigatorIOS style = {
+    return (<NavigatorIOS style = {
         styles.container
       }
       onLeftButtonPress = {
@@ -67,6 +54,21 @@ class PropertyFinder extends Component {
       }
       />
     );
+  }
+}
+
+
+
+
+class HelloWorld extends Component {
+
+  render() {
+    return (
+      <Text style = {styles.text}>
+          {'Hello World (Again)'}
+        </Text>
+    );
+
   }
 }
 
