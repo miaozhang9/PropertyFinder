@@ -23,7 +23,7 @@ var PAGES = [
   'Page 3',
   'Page 4',
 ];
-
+ 
 function notifyMessage(msg: string) {
   if (Platform.OS === 'android') {
     ToastAndroid.show(msg, ToastAndroid.SHORT)
