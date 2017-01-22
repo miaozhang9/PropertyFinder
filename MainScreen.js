@@ -12,7 +12,6 @@ var TopScreen = require('./TopScreen');
 var BottomScreen = require('./BottomScreen');
 
 var MainScreen = React.createClass({
-
   render: function() {
     return (
       <View style={styles.container}>
