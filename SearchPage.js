@@ -134,7 +134,7 @@ export default class SearchPage extends Component {
   }
 
   onSearchPressed() {
-    var query = urlForQueryAndPage('place_name', this.this.state.searchString, 1);
+    var query = urlForQueryAndPage('place_name', this.state.searchString, 1);
     this._executeQuery(query);
   }
 
